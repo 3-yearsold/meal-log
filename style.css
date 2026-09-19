@@ -1,0 +1,48 @@
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Hiragino Sans", "Yu Gothic UI", sans-serif;
+  background: #f6f6f3;
+  color: #222;
+}
+
+main { max-width: 480px; margin: 0 auto; padding: 16px; }
+h1 { font-size: 1.3rem; margin: 0 0 12px; }
+h2 { font-size: 1rem; margin: 20px 0 8px; }
+.muted { color: #777; font-size: 0.85rem; }
+
+button, input, select {
+  font: inherit;
+  padding: 8px 10px;
+  border: 1px solid #bbb;
+  border-radius: 6px;
+  background: #fff;
+}
+button { cursor: pointer; }
+input, select { width: 100%; }
+
+.date-nav { display: flex; gap: 8px; }
+.date-nav button { width: 48px; }
+
+.totals { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+.totals div { background: #fff; border-radius: 6px; padding: 8px 4px; text-align: center; }
+.totals b { display: block; font-size: 1.1rem; }
+.totals span { font-size: 0.75rem; color: #777; }
+
+.entries { list-style: none; margin: 0; padding: 0; }
+.entries li {
+  display: flex; align-items: center; gap: 8px;
+  background: #fff; border-radius: 6px; padding: 8px 10px; margin-bottom: 6px;
+}
+.entries .main { flex: 1; min-width: 0; }
+.entries .name { overflow-wrap: anywhere; }
+.entries .sub { font-size: 0.8rem; color: #777; }
+.entries button { width: auto; padding: 4px 10px; }
+
+#search, #pick { margin-bottom: 8px; }
+.add-row { display: flex; align-items: center; gap: 8px; }
+.add-row input { flex: 1; }
+.add-row button { width: 80px; }
+
+footer { margin-top: 24px; }

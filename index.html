@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>食事記録</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <h1>食事記録</h1>
+
+    <div class="date-nav">
+      <button id="prev" type="button" aria-label="前の日">‹</button>
+      <input id="date" type="date">
+      <button id="next" type="button" aria-label="次の日">›</button>
+    </div>
+
+    <section>
+      <h2>この日の合計</h2>
+      <div id="totals" class="totals"></div>
+    </section>
+
+    <section>
+      <h2>食べたもの</h2>
+      <ul id="entries" class="entries"></ul>
+      <p id="empty" class="muted">まだ記録がありません</p>
+    </section>
+
+    <section>
+      <h2>追加する</h2>
+      <input id="search" type="search" placeholder="食品名で検索(例: 鶏 むね)" autocomplete="off">
+      <select id="pick" size="6" aria-label="検索結果"></select>
+      <div class="add-row">
+        <input id="grams" type="number" inputmode="decimal" min="0" step="any" placeholder="量">
+        <span>g</span>
+        <button id="add" type="button">追加</button>
+      </div>
+    </section>
+
+    <footer class="muted">
+      栄養値は「日本食品標準成分表(八訂)増補2023年」から引用(出典: 文部科学省)。
+    </footer>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
