@@ -128,7 +128,15 @@ function setDate(newDate) {
   render();
 }
 
+// ブラウザが古いファイルを覚えていても、最新版を取り直して再読み込みする(記録は消えない)
+async function refreshApp() {
+  const files = ["./", "index.html", "style.css", "app.js", "foods.json"];
+  await Promise.all(files.map((f) => fetch(f, { cache: "reload" }).catch(() => {})));
+  location.reload();
+}
+
 async function init() {
+  $("refresh").addEventListener("click", refreshApp);
   $("search").addEventListener("input", renderPick);
   $("add").addEventListener("click", addEntry);
   $("prev").addEventListener("click", () => setDate(shiftDate(date, -1)));

@@ -46,3 +46,4 @@ input, select { width: 100%; }
 .add-row button { width: 80px; }
 
 footer { margin-top: 24px; }
+button.link { display: block; width: auto; margin-top: 8px; padding: 4px 10px; font-size: 0.85rem; }
