@@ -13,6 +13,7 @@ let aliases = {};
 let units = { g: 1 };
 let log = loadLog(); // { "2026-09-19": [{ id, name, qty, unit, g, kcal, p, f, c, salt }] }
 let date = todayString();
+let selectedFood = null; // 今、候補一覧から選んでいる食品
 
 function todayString() {
   const d = new Date();
@@ -62,15 +63,47 @@ function searchFoods(query) {
 }
 
 function renderPick() {
-  const results = searchFoods($("search").value);
-  $("pick").replaceChildren(
+  const query = $("search").value;
+  const status = $("searchStatus");
+  const list = $("pick");
+
+  if (!query.trim()) {
+    status.hidden = true;
+    list.replaceChildren();
+    return;
+  }
+
+  const results = searchFoods(query);
+  status.hidden = false;
+  status.textContent = results.length ? `${results.length}件見つかりました。タップして選んでください` : "見つかりませんでした";
+
+  list.replaceChildren(
     ...results.map((food) => {
-      const opt = document.createElement("option");
-      opt.value = food.id;
-      opt.textContent = displayName(food.name);
-      return opt;
+      const li = document.createElement("li");
+      li.textContent = displayName(food.name);
+      li.className = selectedFood?.id === food.id ? "selected" : "";
+      li.addEventListener("click", () => selectFood(food));
+      return li;
     })
   );
+}
+
+function selectFood(food) {
+  selectedFood = food;
+  renderPick();
+  renderSelected();
+  updateAddButton();
+}
+
+function renderSelected() {
+  const el = $("selected");
+  el.hidden = !selectedFood;
+  if (selectedFood) el.textContent = `選択中: ${displayName(selectedFood.name)}`;
+}
+
+function updateAddButton() {
+  const qty = parseFloat($("qty").value);
+  $("add").disabled = !(selectedFood && qty > 0);
 }
 
 function render() {
@@ -120,7 +153,7 @@ function render() {
 }
 
 function addEntry() {
-  const food = foods.find((f) => f.id === $("pick").value);
+  const food = selectedFood;
   const qty = parseFloat($("qty").value);
   const unit = $("unit").value;
   if (!food || !(qty > 0) || !(unit in units)) return;
@@ -132,7 +165,12 @@ function addEntry() {
   (log[date] ||= []).push(entry);
   saveLog();
 
+  selectedFood = null;
+  $("search").value = "";
   $("qty").value = "";
+  renderPick();
+  renderSelected();
+  updateAddButton();
   render();
 }
 
@@ -152,6 +190,7 @@ async function refreshApp() {
 async function init() {
   $("refresh").addEventListener("click", refreshApp);
   $("search").addEventListener("input", renderPick);
+  $("qty").addEventListener("input", updateAddButton);
   $("add").addEventListener("click", addEntry);
   $("prev").addEventListener("click", () => setDate(shiftDate(date, -1)));
   $("next").addEventListener("click", () => setDate(shiftDate(date, 1)));
